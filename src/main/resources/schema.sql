@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS pedido (
+    id BIGSERIAL PRIMARY KEY,
+    produto VARCHAR(255) NOT NULL,
+    quantidade INTEGER NOT NULL,
+    valor DOUBLE PRECISION NOT NULL
+    );
