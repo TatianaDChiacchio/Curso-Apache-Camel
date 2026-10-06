@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+    <orderId>9999</orderId>
+    <customer>Cliente com XML quebrado</customer>
+    <product>Monitor</product>
+    <quantity>2</quantity>
+    <price>1500.00</price>

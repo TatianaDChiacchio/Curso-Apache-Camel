@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+    <orderId>1001</orderId>
+    <customer>GlobalTech Ltda</customer>
+    <product>Notebook</product>
+    <quantity>2</quantity>
+    <price>4500.00</price>
+</order>

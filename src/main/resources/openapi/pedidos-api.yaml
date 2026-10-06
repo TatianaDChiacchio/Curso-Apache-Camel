@@ -43,6 +43,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pedido'
 
+        '422':
+          description: Pedido rejeitado por exceder o limite de valor permitido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroPedido'
+
   /api/pedidos/{id}:
 
     get:
@@ -81,6 +88,37 @@ paths:
       responses:
         '204':
           description: Pedido excluído com sucesso
+        '404':
+          description: Pedido não encontrado
+
+    put:
+      operationId: editarPedido
+      summary: Edita um pedido existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoPedido'
+
+      responses:
+        '200':
+          description: Pedido atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+
+        '404':
+          description: Pedido não encontrado
 
 components:
 
@@ -135,3 +173,16 @@ components:
           type: number
           format: double
           example: 4500.00
+
+    ErroPedido:
+      type: object
+      required:
+        - erro
+        - mensagem
+      properties:
+        erro:
+          type: string
+          example: PEDIDO_ALTO_VALOR
+        mensagem:
+          type: string
+          example: Pedido não criado. O valor informado excede o limite permitido de R$ 5.000,00.

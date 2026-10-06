@@ -11,6 +11,10 @@ public class ListarPedidosRoute extends RouteBuilder {
 
         from("direct:listarPedidos")
                 .routeId("listar-pedidos")
-                .log("Listando pedidos");
+                .log("Listando pedidos")
+                .to("sql:classpath:sql/listar-pedidos.sql")
+                .marshal()
+                    .json()
+                .setHeader("Content-Type", constant("application/json"));
     }
 }

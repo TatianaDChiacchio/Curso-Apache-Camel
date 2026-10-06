@@ -129,10 +129,24 @@
 			<version>${camel.version}</version>
 		</dependency>
 
+		<!-- Jackson XML - usado pelo XmlMapper -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
 		<!-- Testes -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Testes unitários Apache Camel com JUnit 5 -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-junit5</artifactId>
+			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
 
