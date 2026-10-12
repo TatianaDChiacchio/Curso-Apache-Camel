@@ -1,18 +1,28 @@
 package br.com.robodegaragem.camel_aula1.route.pedido;
 
 import br.com.robodegaragem.camel_aula1.generated.model.NovoPedido;
+import br.com.robodegaragem.camel_aula1.model.ErrorResponseProcessor;
+import br.com.robodegaragem.camel_aula1.processor.CorrelationLogProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EditarPedidoRoute extends RouteBuilder {
+    private final ErrorResponseProcessor errorResponseProcessor;
+    private final CorrelationLogProcessor correlationLogProcessor;
+
+    public EditarPedidoRoute(ErrorResponseProcessor errorResponseProcessor, CorrelationLogProcessor correlationLogProcessor) {
+        this.errorResponseProcessor = errorResponseProcessor;
+        this.correlationLogProcessor = correlationLogProcessor;
+    }
 
     @Override
     public void configure() throws Exception {
 
         from("direct:editarPedido")
                 .routeId("editar-pedido")
+                .process(correlationLogProcessor)
                 .log("Editando pedido ID: ${header.id}")
                 .convertHeaderTo("id", Long.class)
                 .unmarshal()
@@ -23,8 +33,8 @@ public class EditarPedidoRoute extends RouteBuilder {
                 .choice()
                     .when(header("CamelSqlUpdateCount").isEqualTo(0))
                         .log("Pedido não encontrado: ${header.id}")
-                        .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))
-                        .setBody(constant("{\"mensagem\":\"Pedido não encontrado\"}"))
+                        .process(exchange -> errorResponseProcessor.setError(
+                            exchange, 404, "Pedido Not Found", "Pedido " + exchange.getMessage().getHeader("id") + " não encontrado" ))
                     .otherwise()
                         .log("Pedido atualizado com sucesso: ${header.id}")
                         .to("sql:classpath:sql/buscar-pedido.sql?outputType=SelectOne")

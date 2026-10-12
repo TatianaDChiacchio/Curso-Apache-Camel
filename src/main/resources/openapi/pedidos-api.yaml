@@ -73,6 +73,10 @@ paths:
 
         '404':
           description: Pedido não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroPedido'
 
     delete:
       operationId: excluirPedido
@@ -90,6 +94,10 @@ paths:
           description: Pedido excluído com sucesso
         '404':
           description: Pedido não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroPedido'
 
     put:
       operationId: editarPedido
@@ -119,6 +127,10 @@ paths:
 
         '404':
           description: Pedido não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroPedido'
 
 components:
 
@@ -176,13 +188,16 @@ components:
 
     ErroPedido:
       type: object
+      description: Estrutura padronizada para respostas de erro da API
       required:
         - erro
         - mensagem
       properties:
         erro:
           type: string
-          example: PEDIDO_ALTO_VALOR
+          description: Código que identifica o tipo de erro
+          example: PEDIDO_NAO_ENCONTRADO
         mensagem:
           type: string
-          example: Pedido não criado. O valor informado excede o limite permitido de R$ 5.000,00.
+          description: Descrição do erro
+          example: Pedido 999 não encontrado
